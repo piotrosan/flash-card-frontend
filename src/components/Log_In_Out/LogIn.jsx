@@ -1,35 +1,42 @@
 import React, { useState } from 'react';
-import Logging from "../../helpers/logs/Logging";
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-import './logIn.css';
+import Logging from "../../helpers/logs/Logging";
 import {AppUserContext} from "../../settings";
 
 function LogInForm(props) {
 
-    const LoginUrl = '/auth/login'
+    const LoginUrl = 'http://localhost:8001/auth/login';
+    const RedirectAfterLogin = '/test_context';
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
-    const [userContext, setUserContext] = useState(null);
+    const [userContext, setUserContext] = useState(React.useContext(AppUserContext));
+
+    const navigate = useNavigate();
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-
         try {
             let result = await axios.post(LoginUrl, {'email': email, 'password': password});
-            setUserContext(result)
+            setUserContext({
+                'app': props.app,
+                'access_token': result.access_token,
+                'refresh_token': result.refresh_token,
+                'context_address': result.context_address,
+                'hash_identifier': result.hash_identifier
+            });
+            navigate(RedirectAfterLogin);
         } catch (err) {
-            await Logging({'app': props.app, 'level': 1, 'message': err.response?.data?.message})
+            await Logging({'app': props.app, 'level': 1, 'message': err.response?.data?.message});
             setError(err.response?.data?.message || 'Login error');
         }
-
     };
 
-    <AppUserContext.Consumer>
-        appUsereContext => appUsereContext.user = userContext)
-    </AppUserContext.Consumer>
+    const onChangeEmail = (event) => {setEmail(event.target.value)};
+    const onChangePassword = (event) => {setPassword(event.target.value)};
 
     return (
         <div className="loginForm">
@@ -41,7 +48,7 @@ function LogInForm(props) {
                         type="text"
                         id="email"
                         value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        onChange={onChangeEmail}
                     />
                 </div>
                 <div>
@@ -50,7 +57,7 @@ function LogInForm(props) {
                         type="password"
                         id="password"
                         value={password}
-                        onChange={(e) => setPassword(e.target.value)}
+                        onChange={onChangePassword}
                     />
                 </div>
                 <button type="submit">LogIn</button>
