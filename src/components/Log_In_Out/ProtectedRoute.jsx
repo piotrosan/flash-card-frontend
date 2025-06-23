@@ -1,18 +1,16 @@
 import { Navigate } from "react-router-dom";
 import React from "react";
 
-import {AppUserContext} from "../../settings";
-
-export const ProtectedRoute = ({ children }) => {
-
-    const context = React.useContext(AppUserContext);
-
+export const ProtectedRoute = ({ children, appContext }) => {
     if (
-        context !== {} &&
-        context.access_token === '' &&
-        context.context_address === ''
+        appContext === {} &&
+        appContext.access_token === '' &&
+        appContext.context_address === ''
     ) {
         return <Navigate to="/login" />;
     }
-    return <Navigate to="/login" />;;
+    console.log(children);
+    return children;
 };
+
+export default ProtectedRoute;

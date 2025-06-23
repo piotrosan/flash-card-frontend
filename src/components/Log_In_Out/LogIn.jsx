@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 import Logging from "../../helpers/logs/Logging";
-import {AppUserContext} from "../../settings";
 
 function LogInForm(props) {
 
@@ -13,26 +12,29 @@ function LogInForm(props) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
-    const [userContext, setUserContext] = useState(React.useContext(AppUserContext));
 
     const navigate = useNavigate();
 
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            let result = await axios.post(LoginUrl, {'email': email, 'password': password});
-            setUserContext({
-                'app': props.app,
-                'access_token': result.access_token,
-                'refresh_token': result.refresh_token,
-                'context_address': result.context_address,
-                'hash_identifier': result.hash_identifier
-            });
-            navigate(RedirectAfterLogin);
+            axios.post(
+                LoginUrl,
+                {'email': email, 'password': password}).then(
+                    (result) => {
+                        props.setAppContext({
+                            'access_token': result.data.access_token,
+                            'refresh_token': result.data.refresh_token,
+                            'context_address': result.data.context_address,
+                            'hash_identifier': result.data.hash_identifier
+                        });
+                    });
+
         } catch (err) {
             await Logging({'app': props.app, 'level': 1, 'message': err.response?.data?.message});
             setError(err.response?.data?.message || 'Login error');
         }
+        navigate(RedirectAfterLogin);
     };
 
     const onChangeEmail = (event) => {setEmail(event.target.value)};

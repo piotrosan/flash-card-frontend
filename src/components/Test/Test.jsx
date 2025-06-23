@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
 
-import {AppUserContext} from "../../settings";
-
 function Test(props) {
 
-    const [userContext, setUserContext] = useState(React.useContext(AppUserContext));
+    console.log("Jestem w tescie");
 
     return (
         <div className="test">
-            <p>{{userContext}}</p>
+            <p> to jest test logowania</p>
         </div>
     );
 }
