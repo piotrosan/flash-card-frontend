@@ -7,7 +7,7 @@ import Logging from "../../helpers/logs/Logging";
 function LogInForm(props) {
 
     const LoginUrl = 'http://localhost:8001/auth/login';
-    const RedirectAfterLogin = '/test_context';
+    const RedirectAfterLogin = '/dashboard';
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');

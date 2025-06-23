@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 
-function Test(props) {
+function Test() {
 
     console.log("Jestem w tescie");
 
+
     return (
         <div className="test">
-            <p> to jest test logowania</p>
+            <p>To jest test logowania</p>
         </div>
     );
 }
