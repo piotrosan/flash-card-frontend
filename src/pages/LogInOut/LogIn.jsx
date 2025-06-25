@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { Button, Field, Input, Stack } from "@chakra-ui/react"
+import {Box, Button, Field, Flex, Grid, Input, Stack} from "@chakra-ui/react"
 
 
 import Logging from "../../helpers/logs/Logging";
@@ -39,29 +39,31 @@ function LogInForm(props) {
         navigate(RedirectAfterLogin);
     };
 
-    const onChangeEmail = (target) => {setEmail(target.value)};
-    const onChangePassword = (target) => {setPassword(target.value)};
+    const onChangeEmail = (event) => {setEmail(event.target.value)};
+    const onChangePassword = (event) => {setPassword(event.target.value)};
 
     return (
-        <section id="loginSection">
-            <form onSubmit={handleSubmit}>
-                <Stack gap="4" align="flex-start" maxW="sm">
-                    <Field.Root>
-                        <Field.Label>First name</Field.Label>
-                        <Input value={email} onChange={onChangeEmail}/>
-                        <Field.ErrorText>{errResult.err?.email}</Field.ErrorText>
-                    </Field.Root>
 
-                    <Field.Root>
-                        <Field.Label>Last name</Field.Label>
-                        <Input value={password} onChange={onChangeEmail} />
-                        <Field.ErrorText>{errResult.err?.password}</Field.ErrorText>
-                    </Field.Root>
+        <Flex align="center" h="100vh" justify="center">
+            <Flex w="50%" h="50%" >
+                    <form style={{width: "100%"}} onSubmit={handleSubmit}>
+                        <Stack  align="flex-start" maxW="md">
+                            <Field.Root>
+                                <Field.Label>Email</Field.Label>
+                                <Input value={email} onChange={onChangeEmail}/>
+                                <Field.ErrorText>{errResult.err?.email}</Field.ErrorText>
+                            </Field.Root>
 
-                    <Button type="submit">Submit</Button>
-                </Stack>
-            </form>
-        </section>
+                            <Field.Root>
+                                <Field.Label>Password</Field.Label>
+                                <Input value={password} onChange={onChangePassword} />
+                                <Field.ErrorText>{errResult.err?.password}</Field.ErrorText>
+                            </Field.Root>
+                            <Button type="submit">Submit</Button>
+                        </Stack>
+                    </form>
+                </Flex>
+        </Flex>
     );
 }
 

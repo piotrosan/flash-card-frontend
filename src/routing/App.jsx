@@ -9,11 +9,11 @@ import Navbar from "../components/Navbar";
 
 
 function App() {
-    const [appContext, setAppUserContext] = React.useState({});
+    const [appContext, setAppUserContext] = React.useState(null);
 
     return (
         <Router>
-            { appContext !== {}  ? <Navbar /> : <></> }
+            { appContext != null  ? <Navbar /> : <></> }
             <Routes>
                 {/* Test  */}
                 <Route path="/test" element={<Test/>}/>

@@ -8,7 +8,16 @@ import App from "./routing/App";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
-const system = createSystem();
+const system = createSystem(defaultConfig, {
+    // theme: {
+    //     tokens: {
+    //         fonts: {
+    //             heading: { value: `'Figtree', sans-serif` },
+    //             body: { value: `'Figtree', sans-serif` },
+    //         },
+    //     },
+    // },
+});
 
 root.render(
   <React.StrictMode>
