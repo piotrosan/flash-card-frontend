@@ -12,23 +12,54 @@ function Navbar(props) {
     };
 
     const onChangeApp = (event) => {
-        navigate(event.currentTarget.value);
+        if (event.currentTarget.value !== ''){
+            navigate(event.currentTarget.value);
+        }
+
     }
 
     return (
-        <Flex justify="center" h="10vh">
-            <Flex align="center" justify="center" direction="column" w="10%">
-                <Link variant="underline" onClick={onDashboard} href="#">
+        <Flex
+            bgImage="linear-gradient({#C5A980}, {#FAEDDD})"
+            className="menu"
+            align="center"
+            justify="center"
+            h="10vh"
+            borderWidth="2px"
+        >
+            <Flex
+                borderWidth="1px"
+                rounded="md"
+                borderRadius="md"
+                align="center"
+                justify="center"
+                direction="column"
+                w="10%"
+                h="50%"
+                style={{marginRight: "5%"}}
+            >
+                <Link style={{color: "rgb(119 95 61)"}} variant="underline" onClick={onDashboard} href="#">
                     Dashboard
                 </Link>
             </Flex>
-            <Flex align="center" justify="center" direction="column" w="5%">APPS:</Flex>
-            <Flex align="center" justify="center" direction="column" w="30%">
+            <Flex
+                style={{color: "rgb(119 95 61)"}}
+                align="center"
+                justify="center"
+                direction="column"
+                w="5%"
+            >APPS:</Flex>
+            <Flex
+                style={{color: "rgb(119 95 61)"}}
+                align="center"
+                justify="center"
+                direction="column"
+                w="30%"
+            >
                 <NativeSelect.Root>
                     <NativeSelect.Field
-                        value={selectValue}
                         onChange={onChangeApp}
-                        placeholder={selectValue}
+                        placeholder="select app ..."
                     >
                         <option value='/test-knowledge'>Test Knowledge</option>
                         <option value='/flash-card'>Flash card</option>

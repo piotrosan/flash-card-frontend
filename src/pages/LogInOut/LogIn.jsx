@@ -43,26 +43,25 @@ function LogInForm(props) {
     const onChangePassword = (event) => {setPassword(event.target.value)};
 
     return (
-
         <Flex align="center" h="100vh" justify="center">
-            <Flex w="50%" h="50%" >
-                    <form style={{width: "100%"}} onSubmit={handleSubmit}>
-                        <Stack  align="flex-start" maxW="md">
-                            <Field.Root>
-                                <Field.Label>Email</Field.Label>
-                                <Input value={email} onChange={onChangeEmail}/>
-                                <Field.ErrorText>{errResult.err?.email}</Field.ErrorText>
-                            </Field.Root>
+            <Flex w="50%" h="50%">
+                <form style={{width: "100%"}} onSubmit={handleSubmit}>
+                    <Stack  align="flex-start" maxW="md">
+                        <Field.Root>
+                            <Field.Label>Email</Field.Label>
+                            <Input value={email} onChange={onChangeEmail}/>
+                            <Field.ErrorText>{errResult.err?.email}</Field.ErrorText>
+                        </Field.Root>
 
-                            <Field.Root>
-                                <Field.Label>Password</Field.Label>
-                                <Input value={password} onChange={onChangePassword} />
-                                <Field.ErrorText>{errResult.err?.password}</Field.ErrorText>
-                            </Field.Root>
-                            <Button type="submit">Submit</Button>
-                        </Stack>
-                    </form>
-                </Flex>
+                        <Field.Root>
+                            <Field.Label>Password</Field.Label>
+                            <Input value={password} onChange={onChangePassword} />
+                            <Field.ErrorText>{errResult.err?.password}</Field.ErrorText>
+                        </Field.Root>
+                        <Button type="submit">Submit</Button>
+                    </Stack>
+                </form>
+            </Flex>
         </Flex>
     );
 }
