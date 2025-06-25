@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { Button, Field, Input, Stack } from "@chakra-ui/react"
+
 
 import Logging from "../../helpers/logs/Logging";
 
@@ -11,7 +13,7 @@ function LogInForm(props) {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
+    const [errResult, setErrResult] = useState('');
 
     const navigate = useNavigate();
 
@@ -22,49 +24,44 @@ function LogInForm(props) {
                 LoginUrl,
                 {'email': email, 'password': password}).then(
                     (result) => {
-                        props.setAppContext({
+                        props.setAppUserContext({
                             'access_token': result.data.access_token,
                             'refresh_token': result.data.refresh_token,
                             'context_address': result.data.context_address,
                             'hash_identifier': result.data.hash_identifier
                         });
+                        setErrResult(result.data);
                     });
 
         } catch (err) {
-            await Logging({'app': props.app, 'level': 1, 'message': err.response?.data?.message});
-            setError(err.response?.data?.message || 'Login error');
+            await Logging({'app': props.app, 'level': 1, 'message': errResult.message});
         }
         navigate(RedirectAfterLogin);
     };
 
-    const onChangeEmail = (event) => {setEmail(event.target.value)};
-    const onChangePassword = (event) => {setPassword(event.target.value)};
+    const onChangeEmail = (target) => {setEmail(target.value)};
+    const onChangePassword = (target) => {setPassword(target.value)};
 
     return (
-        <div className="loginForm">
+        <section id="loginSection">
             <form onSubmit={handleSubmit}>
-                {error && <p style={{ color: 'red' }}>{error}</p>}
-                <div>
-                    <label htmlFor="username">Username</label>
-                    <input
-                        type="text"
-                        id="email"
-                        value={email}
-                        onChange={onChangeEmail}
-                    />
-                </div>
-                <div>
-                    <label htmlFor="password">Password</label>
-                    <input
-                        type="password"
-                        id="password"
-                        value={password}
-                        onChange={onChangePassword}
-                    />
-                </div>
-                <button type="submit">LogIn</button>
+                <Stack gap="4" align="flex-start" maxW="sm">
+                    <Field.Root>
+                        <Field.Label>First name</Field.Label>
+                        <Input value={email} onChange={onChangeEmail}/>
+                        <Field.ErrorText>{errResult.err?.email}</Field.ErrorText>
+                    </Field.Root>
+
+                    <Field.Root>
+                        <Field.Label>Last name</Field.Label>
+                        <Input value={password} onChange={onChangeEmail} />
+                        <Field.ErrorText>{errResult.err?.password}</Field.ErrorText>
+                    </Field.Root>
+
+                    <Button type="submit">Submit</Button>
+                </Stack>
             </form>
-        </div>
+        </section>
     );
 }
 

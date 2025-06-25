@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import LogInForm from "../pages/LogInOut/LogIn";
-import ProtectedRoute from "../pages/LogInOut/ProtectedRoute";
+import ProtectedRoute from "./ProtectedRoute";
 import Test from "../components/Test/Test";
 import TestKnowledge from "../pages/TestKnowledge";
 import Dashboard from "../pages/Dashboard";
@@ -9,12 +9,11 @@ import Navbar from "../components/Navbar";
 
 
 function App() {
-    const [appContext, setAppContext] = React.useState(null);
-
+    const [appContext, setAppUserContext] = React.useState({});
 
     return (
         <Router>
-            {appContext  ? <Navbar /> : null}
+            { appContext !== {}  ? <Navbar /> : <></> }
             <Routes>
                 {/* Test  */}
                 <Route path="/test" element={<Test/>}/>
@@ -24,7 +23,7 @@ function App() {
                     </ProtectedRoute>
                 }/>
                 {/* Sites */}
-                <Route path="/" element={<LogInForm setAppContext={setAppContext}/>} />
+                <Route path="/" element={<LogInForm setAppUserContext={setAppUserContext}/>} />
                 <Route path="/dashboard" element={
                     <ProtectedRoute appContext={appContext}>
                         <Dashboard appContext={appContext}/>

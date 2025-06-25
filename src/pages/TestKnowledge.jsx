@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import {Button} from "@mui/material";
 import axios from "axios";
 import Logging from "../helpers/logs/Logging";
 
@@ -26,10 +25,6 @@ function TestKnowledge(props) {
 
     return (
         <section className="test-konwledge">
-            <Button
-                color="success"
-                onClick={onClickGettingFlashCardSet}>
-            </Button>
         </section>
     );
 }

@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
-import MenuItem from "@mui/material/MenuItem";
-import {Link, MenuList} from "@mui/material";
-import TestKnowledge from "../pages/TestKnowledge";
-import {Navigate, useNavigate} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 
 function Navbar(props) {
     let navigate = useNavigate();
@@ -11,17 +8,13 @@ function Navbar(props) {
         navigate('/test-knowledge');
     };
 
+    const onDashboard = (event) => {
+        navigate('/dashboard');
+    };
+
 
     return (
-        <MenuList>
-            <MenuItem>
-                <Link
-                    component="button"
-                    variant="body2"
-                    onClick={onFlashCard}>
-                </Link>
-            </MenuItem>
-        </MenuList>
+        <div></div>
     );
 }
 
