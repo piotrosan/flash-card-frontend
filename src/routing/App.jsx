@@ -6,6 +6,7 @@ import Test from "../components/Test/Test";
 import TestKnowledge from "../pages/TestKnowledge";
 import Dashboard from "../pages/Dashboard";
 import Navbar from "../components/Navbar";
+import RegisterForm from "../pages/Register";
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
                 }/>
                 {/* Sites */}
                 <Route path="/" element={<LogInForm setAppUserContext={setAppUserContext}/>} />
+                <Route path="/register" element={<RegisterForm setAppUserContext={setAppUserContext}/>} />
                 <Route path="/dashboard" element={
                     <ProtectedRoute appContext={appContext}>
                         <Dashboard appContext={appContext}/>
