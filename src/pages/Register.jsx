@@ -3,7 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import {Checkbox, Button, Field, Flex, For, Fieldset, Input, Stack, Textarea, CheckboxGroup} from "@chakra-ui/react"
 import Logging from "../helpers/logs/Logging";
-import {renderHook} from "@testing-library/react";
+import { z } from "zod"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useController, useForm } from "react-hook-form"
+import GroupCheckbox from "../components/GroupCheckbox/GroupCheckbox";
 
 function RegisterForm(props) {
 
@@ -16,32 +19,19 @@ function RegisterForm(props) {
     const [ageRange, setAgeRange] = useState('');
     const [additionalInfo, setAdditionalInfo] = useState('');
     const [externalLogin, setExternalLogin] = useState('');
-    const [apps, setApps] = useState([]);
-    const [checkboxGroup, setCheckboxGroup] = useState('');
+    const [apps, setApps] = useState(['test-knowledge']);
+    const [storedApps, setStoredApps] = useState([]);
+    const [checkboxGroup, setCheckboxGroup] = useState({});
     const [errResult, setErrResult] = useState('');
 
     const navigate = useNavigate();
 
 
-    const renderCheckGroup = (apps) => {
-        return renderHook(<CheckboxGroup
-            invalid={false}
-            value={apps}
-            onValueChange={onChangeApps}
-            name="apps"
-        >
-            apps.map( (app) => {
-                    <Checkbox.Root
-                        size={"md"}
-                        key={"md"}
-                    >
-                        <Checkbox.HiddenInput/>
-                        <Checkbox.Control/>
-                        <Checkbox.Label>app</Checkbox.Label>
-                    </Checkbox.Root>
-                }
-            )
-        </CheckboxGroup>)
+    const renderCheckGroup = (storedApps) => {
+        storedApps.map((elem, index) => {
+            Object.assign(checkboxGroup, {[elem]: false});
+        })
+        return <GroupCheckbox checkboxGroup={checkboxGroup}/>
     }
 
     useEffect(() => {
@@ -50,14 +40,13 @@ function RegisterForm(props) {
                 ConfigurationUrl
             ).then(
                 (result) => {
-                    setCheckboxGroup(renderCheckGroup(result.data.apps))
+                    setCheckboxGroup(renderCheckGroup(result.data.apps));
                     setErrResult(result.data);
-                    console.log(checkboxGroup);
                 });
         } catch (err) {
             Logging({'app': props.app, 'level': 1, 'message': errResult.message}).then(()=> {});
         }
-        console.log(checkboxGroup);
+
     }, []);
 
     const handleSubmit = async (event) => {
@@ -138,8 +127,8 @@ function RegisterForm(props) {
                         </Field.Root>
 
                         <Field.Root>
-                            <Field.Label>Select your framework</Field.Label>
-                            {/*{{ checkboxGroup }}*/}
+                            <Field.Label>Select apps</Field.Label>
+                            {/*{checkboxGroup}*/}
                             <Field.ErrorText>{errResult.err?.password}</Field.ErrorText>
                         </Field.Root>
 
